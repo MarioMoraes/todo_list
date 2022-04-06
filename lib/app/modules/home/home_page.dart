@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_todolist/app/core/ui/theme_extensions.dart';
 import 'package:flutter_todolist/app/modules/home/widgets/home_drawer.dart';
 import 'package:flutter_todolist/app/modules/home/widgets/home_tasks.dart';
+import 'package:flutter_todolist/app/modules/task/task_module.dart';
 
 import '../../core/ui/todo_list_icon.dart';
 import 'widgets/home_filters.dart';
@@ -12,7 +13,23 @@ class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   _goToCreateTask(BuildContext context) {
-    Navigator.of(context).pushNamed('/task/create');
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        transitionDuration: const Duration(milliseconds: 500),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          animation =
+              CurvedAnimation(parent: animation, curve: Curves.easeInQuad);
+          return ScaleTransition(
+            scale: animation,
+            alignment: Alignment.bottomRight,
+            child: child,
+          );
+        },
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return TaskModule().getPage('/task/create', context);
+        },
+      ),
+    );
   }
 
   @override

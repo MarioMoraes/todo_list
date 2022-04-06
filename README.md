@@ -1,6 +1,6 @@
 # flutter_todolist
 
-Todo List Project. Course Academia do Flutter
+Todo List Project Flutter. State Manager Provider
 
 ## Getting Started
 
