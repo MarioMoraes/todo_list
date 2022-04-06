@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_todolist/app/core/ui/theme_extensions.dart';
 import 'package:flutter_todolist/app/core/widgets/custom_formfield.dart';
 import 'package:flutter_todolist/app/modules/task/create_task_controller.dart';
+import 'package:flutter_todolist/app/modules/task/widgets/calendar_button.dart';
 
 class CreateTaskPage extends StatelessWidget {
   final CreateTaskController _createTaskController;
@@ -37,50 +38,34 @@ class CreateTaskPage extends StatelessWidget {
         onPressed: () {},
         label: const Text('Save Task'),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Align(
-            alignment: Alignment.center,
-            child: Text(
-              'New Task',
-              style: context.textStyle.copyWith(
-                color: context.primaryColor,
-                fontSize: 22,
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
-            child: Form(
-              child: CustomFormField(hint: 'Description'),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
-            child: Container(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.date_range,
+      body: Form(
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 30),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: Text(
+                  'New Task',
+                  style: context.textStyle.copyWith(
                     color: context.primaryColor,
+                    fontSize: 22,
                   ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    'SELECT DATE',
-                    style: context.textStyle.copyWith(fontSize: 14),
-                  )
-                ],
+                ),
               ),
-            ),
-          )
-        ],
+              const SizedBox(
+                height: 10,
+              ),
+              CustomFormField(hint: 'Description'),
+              const SizedBox(
+                height: 10,
+              ),
+              const Align(
+                  alignment: Alignment.centerLeft, child: CalendarButton())
+            ],
+          ),
+        ),
       ),
     );
   }
