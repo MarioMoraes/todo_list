@@ -3,15 +3,22 @@ import 'package:flutter_todolist/app/core/ui/theme_extensions.dart';
 import 'package:flutter_todolist/app/core/widgets/custom_formfield.dart';
 import 'package:flutter_todolist/app/modules/task/create_task_controller.dart';
 import 'package:flutter_todolist/app/modules/task/widgets/calendar_button.dart';
+import 'package:validatorless/validatorless.dart';
 
-class CreateTaskPage extends StatelessWidget {
-  final CreateTaskController _createTaskController;
+class CreateTaskPage extends StatefulWidget {
+  final CreateTaskController _controller;
 
-  const CreateTaskPage({
-    Key? key,
-    required CreateTaskController createTaskController,
-  })  : _createTaskController = createTaskController,
+  const CreateTaskPage({Key? key, required CreateTaskController controller})
+      : _controller = controller,
         super(key: key);
+
+  @override
+  State<CreateTaskPage> createState() => _CreateTaskPageState();
+}
+
+class _CreateTaskPageState extends State<CreateTaskPage> {
+  final _formKey = GlobalKey<FormState>();
+  final _descriptionEC = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +32,9 @@ class CreateTaskPage extends StatelessWidget {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            icon: const Icon(
+            icon: Icon(
               Icons.close,
-              color: Colors.black,
+              color: context.primaryColor,
             ),
           ),
         ],
@@ -35,10 +42,15 @@ class CreateTaskPage extends StatelessWidget {
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: context.primaryColor,
         icon: const Icon(Icons.save),
-        onPressed: () {},
+        onPressed: () {
+          final formValid = _formKey.currentState?.validate() ?? false;
+
+          if (formValid) {}
+        },
         label: const Text('Save Task'),
       ),
       body: Form(
+        key: _formKey,
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 30),
           child: Column(
@@ -57,12 +69,18 @@ class CreateTaskPage extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              CustomFormField(hint: 'Description'),
+              CustomFormField(
+                hint: '',
+                controller: _descriptionEC,
+                validator: Validatorless.required('Description Is Empty!'),
+              ),
               const SizedBox(
                 height: 10,
               ),
               const Align(
-                  alignment: Alignment.centerLeft, child: CalendarButton())
+                alignment: Alignment.centerLeft,
+                child: CalendarButton(),
+              )
             ],
           ),
         ),
