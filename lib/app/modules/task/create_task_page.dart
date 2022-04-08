@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_todolist/app/core/notifier/default_listener_notifier.dart';
 import 'package:flutter_todolist/app/core/ui/theme_extensions.dart';
 import 'package:flutter_todolist/app/core/widgets/custom_formfield.dart';
 import 'package:flutter_todolist/app/modules/task/create_task_controller.dart';
@@ -19,6 +20,26 @@ class CreateTaskPage extends StatefulWidget {
 class _CreateTaskPageState extends State<CreateTaskPage> {
   final _formKey = GlobalKey<FormState>();
   final _descriptionEC = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    DefaultListenerNotifier(changeNotifier: widget._controller).listener(
+      context: context,
+      successCallback: (notifier, listenerInstance) {
+        print('Estou aqui');
+        listenerInstance.dispose();
+        Navigator.of(context).pop();
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _descriptionEC.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +66,9 @@ class _CreateTaskPageState extends State<CreateTaskPage> {
         onPressed: () {
           final formValid = _formKey.currentState?.validate() ?? false;
 
-          if (formValid) {}
+          if (formValid) {
+            widget._controller.save(_descriptionEC.text);
+          }
         },
         label: const Text('Save Task'),
       ),
@@ -72,12 +95,12 @@ class _CreateTaskPageState extends State<CreateTaskPage> {
               CustomFormField(
                 hint: '',
                 controller: _descriptionEC,
-                validator: Validatorless.required('Description Is Empty!'),
+                validator: Validatorless.required('Description Is Required!'),
               ),
               const SizedBox(
                 height: 10,
               ),
-              const Align(
+              Align(
                 alignment: Alignment.centerLeft,
                 child: CalendarButton(),
               )

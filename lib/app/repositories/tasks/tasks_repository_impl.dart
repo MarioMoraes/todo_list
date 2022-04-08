@@ -11,6 +11,7 @@ class TasksRepositoryImpl extends TasksRepository {
   Future<void> save(DateTime date, String description) async {
     final conn = await _connectionFactory.openConnection();
     conn.insert('todo', {
+      'id': null,
       'descricao': description,
       'data_hora': date.toIso8601String(),
       'finalizado': 0,

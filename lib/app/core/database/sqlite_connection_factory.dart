@@ -1,41 +1,44 @@
-import 'package:flutter_todolist/app/core/database/sqlite_migration_factory.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:synchronized/synchronized.dart';
 
+import 'sqlite_migration_factory.dart';
+
 class SqliteConnectionFactory {
   static const _version = 1;
-  static const _databaseName = 'TODOLIST_DB';
+  static const _databaseName = 'TODO_LIST_PROVIDER';
 
   static SqliteConnectionFactory? _instance;
-
-  SqliteConnectionFactory._();
 
   Database? _db;
   final _lock = Lock();
 
+  SqliteConnectionFactory._();
+
   factory SqliteConnectionFactory() {
-    // If _instance == NULL atribuiu o Construtor e Retorna.
-    // Caso contrario Retorna _instance (??)
-    return _instance ??= SqliteConnectionFactory._();
+    _instance ??= SqliteConnectionFactory._();
+    return _instance!;
   }
 
   Future<Database> openConnection() async {
-    var pathDevice = await getDatabasesPath();
-    var pathFinal = join(pathDevice, _databaseName);
-
+    var databasePath = await getDatabasesPath();
+    var databasePathFinal = join(databasePath, _databaseName);
     if (_db == null) {
       await _lock.synchronized(() async {
-        _db ??= await openDatabase(
-          pathFinal,
-          version: _version,
-          onConfigure: _onConfigure,
-          onCreate: _onCreate,
-          onUpgrade: _onUpgrade,
-        );
+        _db ??= await openDatabase(databasePathFinal,
+            version: _version,
+            onConfigure: _onConfigure,
+            onCreate: _onCreate,
+            onUpgrade: _onUpgrade,
+            onDowngrade: _onDowngrade);
       });
     }
     return _db!;
+  }
+
+  void closeConnection() {
+    _db?.close();
+    _db = null;
   }
 
   Future<void> _onConfigure(Database db) async {
@@ -44,24 +47,25 @@ class SqliteConnectionFactory {
 
   Future<void> _onCreate(Database db, int version) async {
     final batch = db.batch();
+
     final migrations = SqliteMigrationFactory().getCreateMigration();
     for (var migration in migrations) {
       migration.create(batch);
     }
+
     batch.commit();
   }
 
   Future<void> _onUpgrade(Database db, int oldVersion, int version) async {
     final batch = db.batch();
+
     final migrations = SqliteMigrationFactory().getUpgradeMigration(oldVersion);
     for (var migration in migrations) {
       migration.upgrade(batch);
     }
+
     batch.commit();
   }
 
-  void closeConnection() {
-    _db?.close();
-    _db == null;
-  }
+  Future<void> _onDowngrade(Database db, int oldVersion, int version) async {}
 }
