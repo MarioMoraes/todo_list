@@ -73,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     SizedBox(
                       height: MediaQuery.of(context).size.width * .5,
-                      child: const FittedBox(
+                      child: FittedBox(
                         child: TodoListLogo(),
                       ),
                     ),

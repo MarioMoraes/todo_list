@@ -4,7 +4,15 @@ import 'package:flutter_todolist/app/core/ui/theme_extensions.dart';
 import 'package:provider/provider.dart';
 
 class HomeHeader extends StatelessWidget {
-  const HomeHeader({Key? key}) : super(key: key);
+  HomeHeader({Key? key}) : super(key: key);
+
+  final Shader gradText = LinearGradient(colors: <Color>[
+    Colors.purple,
+    Colors.blue,
+    Colors.blue.shade200,
+  ]).createShader(
+    const Rect.fromLTWH(100, 0, 200, 0),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +25,8 @@ class HomeHeader extends StatelessWidget {
             return Text(
               'Hello, $value!',
               style: context.textStyle.copyWith(
-                color: Colors.black,
                 fontSize: 20,
+                foreground: Paint()..shader = gradText,
               ),
             );
           },

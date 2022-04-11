@@ -84,7 +84,7 @@ class _RegisterPageState extends State<RegisterPage> {
         children: [
           SizedBox(
             height: MediaQuery.of(context).size.width * .5,
-            child: const FittedBox(
+            child: FittedBox(
               child: TodoListLogo(),
             ),
           ),

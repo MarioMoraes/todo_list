@@ -72,11 +72,11 @@ class HomePage extends StatelessWidget {
                 child: IntrinsicHeight(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
+                    children: [
                       HomeHeader(),
-                      HomeFilters(),
-                      HomeWeek(),
-                      HomeTasks(),
+                      const HomeFilters(),
+                      const HomeWeek(),
+                      const HomeTasks(),
                     ],
                   ),
                 ),
