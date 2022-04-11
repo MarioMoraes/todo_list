@@ -49,7 +49,7 @@ class TodoCard extends StatelessWidget {
             '${totalTaskModel?.totalTasks ?? 0} TASKS',
             style: context.textStyle.copyWith(
               fontSize: 11,
-              color: Colors.black54,
+              color: selected ? Colors.white : Colors.black54,
             ),
           ),
           const SizedBox(
@@ -61,7 +61,7 @@ class TodoCard extends StatelessWidget {
               label,
               style: context.textStyle.copyWith(
                 fontSize: 14,
-                color: Colors.black54,
+                color: selected ? Colors.white : Colors.black54,
               ),
             ),
           ),

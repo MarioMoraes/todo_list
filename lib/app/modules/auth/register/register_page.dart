@@ -35,7 +35,6 @@ class _RegisterPageState extends State<RegisterPage> {
       context: context,
       successCallback: (notifier, listenerInstance) {
         listenerInstance.dispose();
-        Navigator.of(context).pop();
       },
       // errorCallback: (notifier, listenerInstance) => print('Esse Tramento É Opcional!'),
     );
