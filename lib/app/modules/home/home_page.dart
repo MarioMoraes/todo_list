@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todolist/app/core/ui/theme_extensions.dart';
+import 'package:flutter_todolist/app/modules/home/home_controller.dart';
 import 'package:flutter_todolist/app/modules/home/widgets/home_drawer.dart';
 import 'package:flutter_todolist/app/modules/home/widgets/home_tasks.dart';
 import 'package:flutter_todolist/app/modules/task/task_module.dart';
@@ -9,8 +10,23 @@ import 'widgets/home_filters.dart';
 import 'widgets/home_header.dart';
 import 'widgets/home_week.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  final HomeController _homeController;
+
+  const HomePage({Key? key, required HomeController homeController})
+      : _homeController = homeController,
+        super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    widget._homeController.getAllTasks();
+  }
 
   _goToCreateTask(BuildContext context) {
     Navigator.of(context).push(

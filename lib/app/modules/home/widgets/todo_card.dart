@@ -40,7 +40,7 @@ class TodoCard extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: selected ? context.primaryColor : Colors.blue.withAlpha(30),
+        color: selected ? context.primaryColor : Colors.blue.withAlpha(50),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,7 +75,8 @@ class TodoCard extends StatelessWidget {
             builder: (context, value, child) {
               return LinearProgressIndicator(
                 value: value,
-                color: selected ? Colors.white : context.primaryColor,
+                color: Colors.blue,
+                backgroundColor: Colors.white,
               );
             },
             duration: const Duration(seconds: 1),
