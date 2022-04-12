@@ -44,7 +44,7 @@ class HomeFilters extends StatelessWidget {
                   ),
                   TodoCard(
                     label: 'TOMORROW',
-                    taskFilterEnum: TaskFilterEnum.today,
+                    taskFilterEnum: TaskFilterEnum.tomorrow,
                     totalTaskModel:
                         context.select<HomeController, TotalTaskModel?>(
                             (task) => task.tomorrowTotalTasks),

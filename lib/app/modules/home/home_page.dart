@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_todolist/app/core/notifier/default_listener_notifier.dart';
 import 'package:flutter_todolist/app/core/ui/theme_extensions.dart';
+import 'package:flutter_todolist/app/models/task_filter_enum.dart';
 import 'package:flutter_todolist/app/modules/home/home_controller.dart';
 import 'package:flutter_todolist/app/modules/home/widgets/home_drawer.dart';
 import 'package:flutter_todolist/app/modules/home/widgets/home_tasks.dart';
@@ -25,7 +27,18 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    widget._homeController.getAllTasks();
+
+    DefaultListenerNotifier(changeNotifier: widget._homeController).listener(
+      context: context,
+      successCallback: (notifier, listenerInstance) {
+        listenerInstance.dispose();
+      },
+    );
+
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      widget._homeController.getAllTasks();
+      widget._homeController.findTasks(filter: TaskFilterEnum.today);
+    });
   }
 
   _goToCreateTask(BuildContext context) {

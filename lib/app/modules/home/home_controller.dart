@@ -8,13 +8,16 @@ import 'package:flutter_todolist/app/services/tasks/tasks_service.dart';
 class HomeController extends DefaultChangeNotifier {
   final TasksService _tasksService;
 
-  TotalTaskModel? todayTotalTasks;
-  TotalTaskModel? tomorrowTotalTasks;
-  TotalTaskModel? weekTotalTasks;
-
   HomeController({
     required TasksService tasksService,
   }) : _tasksService = tasksService;
+
+  TotalTaskModel? tomorrowTotalTasks;
+  TotalTaskModel? weekTotalTasks;
+  TotalTaskModel? todayTotalTasks;
+
+  List<TaskModel> allTasks = [];
+  List<TaskModel> filteredTasks = [];
 
   var filterSelected = TaskFilterEnum.today;
 
@@ -44,6 +47,33 @@ class HomeController extends DefaultChangeNotifier {
       totalTasksFinish: weekTasks.tasks.where((task) => task.finished).length,
     );
 
+    notifyListeners();
+  }
+
+  Future<void> findTasks({required TaskFilterEnum filter}) async {
+    filterSelected = filter;
+    showLoading();
+    notifyListeners();
+
+    List<TaskModel> tasks;
+
+    switch (filter) {
+      case TaskFilterEnum.today:
+        tasks = await _tasksService.getToday();
+        break;
+      case TaskFilterEnum.tomorrow:
+        tasks = await _tasksService.getTomorrow();
+        break;
+      case TaskFilterEnum.week:
+        final weekTasks = await _tasksService.getWeek();
+        tasks = weekTasks.tasks;
+        break;
+    }
+
+    allTasks = tasks;
+    filteredTasks = tasks;
+
+    hideLoading();
     notifyListeners();
   }
 }
