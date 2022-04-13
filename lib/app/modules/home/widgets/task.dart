@@ -1,40 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todolist/app/core/ui/theme_extensions.dart';
+import 'package:flutter_todolist/app/models/task_model.dart';
+import 'package:intl/intl.dart';
 
-class Task extends StatefulWidget {
-  const Task({Key? key}) : super(key: key);
+class Task extends StatelessWidget {
+  final TaskModel model;
+  const Task({Key? key, required this.model}) : super(key: key);
 
-  @override
-  State<Task> createState() => _TaskState();
-}
-
-class _TaskState extends State<Task> {
   @override
   Widget build(BuildContext context) {
+    final dateFormat = DateFormat('MM/dd/y');
+
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       height: 70,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        // boxShadow: const [BoxShadow(color: Colors.grey)],
         color: Colors.blue.withAlpha(30),
       ),
       child: IntrinsicHeight(
         child: ListTile(
           leading: Checkbox(
-            onChanged: (value) {
-              setState(() {
-                value = true;
-              });
-            },
-            value: false,
+            onChanged: (value) {},
+            value: model.finished,
           ),
           title: Text(
-            'Task Description',
-            style:
-                context.textStyle.copyWith(fontSize: 15, color: Colors.black),
+            model.description,
+            style: context.textStyle.copyWith(
+              fontSize: 15,
+              color: Colors.black,
+              decoration: model.finished ? TextDecoration.lineThrough : null,
+            ),
           ),
-          subtitle: Text(DateTime.now().toIso8601String()),
+          subtitle: Text(
+            dateFormat.format(model.dateTime),
+            style: context.textStyle.copyWith(
+              fontSize: 15,
+              color: Colors.black26,
+              decoration: model.finished ? TextDecoration.lineThrough : null,
+            ),
+          ),
         ),
       ),
     );
