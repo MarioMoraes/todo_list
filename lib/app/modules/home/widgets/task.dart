@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todolist/app/core/ui/theme_extensions.dart';
 import 'package:flutter_todolist/app/models/task_model.dart';
+import 'package:flutter_todolist/app/modules/home/home_controller.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class Task extends StatelessWidget {
   final TaskModel model;
@@ -21,7 +23,8 @@ class Task extends StatelessWidget {
       child: IntrinsicHeight(
         child: ListTile(
           leading: Checkbox(
-            onChanged: (value) {},
+            onChanged: (value) =>
+                context.read<HomeController>().checkOrUncheckedTask(model),
             value: model.finished,
           ),
           title: Text(
