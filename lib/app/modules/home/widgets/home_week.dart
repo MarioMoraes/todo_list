@@ -31,15 +31,23 @@ class HomeWeek extends StatelessWidget {
           ),
           SizedBox(
             height: 95,
-            child: DatePicker(
-              DateTime.now(),
-              initialSelectedDate: DateTime.now(),
-              selectionColor: context.primaryColor,
-              selectedTextColor: Colors.white,
-              daysCount: 7,
-              monthTextStyle: const TextStyle(fontSize: 8),
-              dateTextStyle: const TextStyle(fontSize: 13),
-              dayTextStyle: const TextStyle(fontSize: 13),
+            child: Selector<HomeController, DateTime>(
+              selector: (context, controller) =>
+                  controller.initialDate ?? DateTime.now(),
+              builder: (_, value, __) {
+                return DatePicker(
+                  value,
+                  initialSelectedDate: value,
+                  selectionColor: context.primaryColor,
+                  selectedTextColor: Colors.white,
+                  daysCount: 7,
+                  monthTextStyle: const TextStyle(fontSize: 8),
+                  dateTextStyle: const TextStyle(fontSize: 13),
+                  dayTextStyle: const TextStyle(fontSize: 13),
+                  onDateChange: (date) =>
+                      context.read<HomeController>().findByDay(date),
+                );
+              },
             ),
           )
         ],

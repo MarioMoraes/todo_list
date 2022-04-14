@@ -41,8 +41,8 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  _goToCreateTask(BuildContext context) {
-    Navigator.of(context).push(
+  _goToCreateTask(BuildContext context) async {
+    await Navigator.of(context).push(
       PageRouteBuilder(
         transitionDuration: const Duration(milliseconds: 500),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -59,6 +59,7 @@ class _HomePageState extends State<HomePage> {
         },
       ),
     );
+    widget._homeController.refreshPage();
   }
 
   @override

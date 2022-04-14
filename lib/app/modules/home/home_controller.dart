@@ -21,6 +21,9 @@ class HomeController extends DefaultChangeNotifier {
 
   var filterSelected = TaskFilterEnum.today;
 
+  DateTime? initialDate;
+  DateTime? selectedDay;
+
   Future<void> getAllTasks() async {
     final allTasks = await Future.wait([
       _tasksService.getToday(),
@@ -66,6 +69,7 @@ class HomeController extends DefaultChangeNotifier {
         break;
       case TaskFilterEnum.week:
         final weekTasks = await _tasksService.getWeek();
+        initialDate = weekTasks.startDate;
         tasks = weekTasks.tasks;
         break;
     }
@@ -73,7 +77,24 @@ class HomeController extends DefaultChangeNotifier {
     allTasks = tasks;
     filteredTasks = tasks;
 
+    if (filterSelected == TaskFilterEnum.week) {
+      findByDay(initialDate!);
+    }
+
     hideLoading();
+    notifyListeners();
+  }
+
+  void findByDay(DateTime date) {
+    selectedDay = date;
+
+    filteredTasks = allTasks.where((task) => task.dateTime == date).toList();
+    notifyListeners();
+  }
+
+  Future<void> refreshPage() async {
+    await findTasks(filter: filterSelected);
+    await getAllTasks();
     notifyListeners();
   }
 }
