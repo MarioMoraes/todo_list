@@ -15,6 +15,7 @@ class HomeController extends DefaultChangeNotifier {
   TotalTaskModel? tomorrowTotalTasks;
   TotalTaskModel? weekTotalTasks;
   TotalTaskModel? todayTotalTasks;
+  TotalTaskModel? totalUnfinished;
 
   List<TaskModel> allTasks = [];
   List<TaskModel> filteredTasks = [];
@@ -100,11 +101,19 @@ class HomeController extends DefaultChangeNotifier {
 
   Future<void> checkOrUncheckedTask(TaskModel task) async {
     showLoadingAndResetState();
-    showLoading();
 
     final taskUpdate = task.copyWith(finished: !task.finished);
 
     await _tasksService.checkOrUncheckTask(taskUpdate);
+
+    hideLoading();
+    refreshPage();
+  }
+
+  deleteTask(TaskModel task) async {
+    showLoadingAndResetState();
+
+    await _tasksService.deleteTask(task);
 
     hideLoading();
     refreshPage();

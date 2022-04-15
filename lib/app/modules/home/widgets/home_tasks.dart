@@ -35,11 +35,14 @@ class HomeTasks extends StatelessWidget {
             height: 10,
           ),
           Column(
-              children: context
-                  .select<HomeController, List<TaskModel>>(
-                      (controller) => controller.filteredTasks)
-                  .map((e) => Task(model: e))
-                  .toList())
+            children: context
+                .select<HomeController, List<TaskModel>>(
+                    (controller) => controller.filteredTasks)
+                .map(
+                  (e) => Task(model: e),
+                )
+                .toList(),
+          )
         ],
       ),
     );

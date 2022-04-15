@@ -48,4 +48,11 @@ class TasksRepositoryImpl extends TasksRepository {
       task.id,
     ]);
   }
+
+  @override
+  Future<void> deleteTask(TaskModel task) async {
+    final conn = await _connectionFactory.openConnection();
+
+    conn.rawDelete('delete from todo where id = ?', [task.id]);
+  }
 }

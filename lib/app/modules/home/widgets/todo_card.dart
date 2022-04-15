@@ -19,18 +19,6 @@ class TodoCard extends StatelessWidget {
     this.totalTaskModel,
   }) : super(key: key);
 
-  double _getPercentFinished() {
-    final total = totalTaskModel?.totalTasks ?? 0.0;
-    final totalFinished = totalTaskModel?.totalTasksFinish ?? 0.1;
-
-    if (total == 0) {
-      return 0.0;
-    }
-
-    final percent = (totalFinished * 100) / total;
-    return percent / 100;
-  }
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -51,10 +39,10 @@ class TodoCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '${totalTaskModel?.totalTasks ?? 0} TASKS',
+              '${totalTaskModel?.totalTasks} TASKS',
               style: context.textStyle.copyWith(
-                fontSize: 11,
-                color: selected ? Colors.white : Colors.black54,
+                fontSize: 12,
+                color: selected ? Colors.yellow : Colors.black54,
               ),
             ),
             const SizedBox(
@@ -94,5 +82,17 @@ class TodoCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  double _getPercentFinished() {
+    final total = totalTaskModel?.totalTasks ?? 0.0;
+    final totalFinished = totalTaskModel?.totalTasksFinish ?? 0.1;
+
+    if (total == 0) {
+      return 0.0;
+    }
+
+    final percent = (totalFinished * 100) / total;
+    return percent / 100;
   }
 }
