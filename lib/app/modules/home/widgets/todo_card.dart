@@ -39,7 +39,7 @@ class TodoCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '${totalTaskModel?.totalTasks} TASKS',
+              '${totalTaskModel?.totalUnFinished ?? 0} TASKS',
               style: context.textStyle.copyWith(
                 fontSize: 12,
                 color: selected ? Colors.yellow : Colors.black54,

@@ -39,16 +39,19 @@ class HomeController extends DefaultChangeNotifier {
     todayTotalTasks = TotalTaskModel(
       totalTasks: todayTasks.length,
       totalTasksFinish: todayTasks.where((task) => task.finished).length,
+      totalUnFinished: todayTasks.where((task) => !task.finished).length,
     );
 
     tomorrowTotalTasks = TotalTaskModel(
       totalTasks: tomorrowTasks.length,
       totalTasksFinish: tomorrowTasks.where((task) => task.finished).length,
+      totalUnFinished: tomorrowTasks.where((task) => !task.finished).length,
     );
 
     weekTotalTasks = TotalTaskModel(
       totalTasks: weekTasks.tasks.length,
       totalTasksFinish: weekTasks.tasks.where((task) => task.finished).length,
+      totalUnFinished: weekTasks.tasks.where((task) => !task.finished).length,
     );
 
     notifyListeners();
