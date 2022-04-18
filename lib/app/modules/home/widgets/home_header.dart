@@ -16,22 +16,21 @@ class HomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Selector<AuthProvider, String>(
-          selector: (context, authProvider) =>
-              authProvider.user?.displayName ?? 'Guess',
-          builder: (_, value, __) {
-            return Text(
-              'Hello, $value!',
-              style: context.textStyle.copyWith(
-                fontSize: 20,
-                foreground: Paint()..shader = gradText,
-              ),
-            );
-          },
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 20),
+      child: Selector<AuthProvider, String>(
+        selector: (context, authProvider) =>
+            authProvider.user?.displayName ?? 'Guess',
+        builder: (_, value, __) {
+          return Text(
+            'Hello, $value!',
+            style: context.textStyle.copyWith(
+              fontSize: 20,
+              foreground: Paint()..shader = gradText,
+            ),
+          );
+        },
+      ),
     );
   }
 }
